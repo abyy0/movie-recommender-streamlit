@@ -5,8 +5,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import base64
 
-# 🌌 FUNCTION TO SET BACKGROUND
-def set_bg(galaxy.jpeg):  # ✅ Now accepts a path
+# ✅ Background Function
+def set_bg(image_file_path):
     with open(image_file_path, "rb") as img:
         encoded = base64.b64encode(img.read()).decode()
     st.markdown(f"""
@@ -17,20 +17,21 @@ def set_bg(galaxy.jpeg):  # ✅ Now accepts a path
             background-attachment: fixed;
         }}
         </style>
-        """, unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
-# ✅ SET THE BACKGROUND IMAGE
-set_bg("galaxy.jpeg")  # 🖼️ Make sure galaxy.jpg is uploaded to GitHub in same folder
+# ✅ Set background using uploaded image
+set_bg("galaxy.jpeg")  # Make sure this file is uploaded to GitHub
 
 st.title("🎬 Movie Recommendation System")
 
+# ✅ Load data
 @st.cache_data
 def load_data():
-    return pd.read_csv("movies.csv")  # ✅ Only filename, no /content
+    return pd.read_csv("movies.csv")  # CSV should be in the same folder
 
 movies_data = load_data()
 
-# Feature extraction
+# ✅ Feature extraction
 selected_features = ['genres', 'keywords', 'tagline', 'cast', 'director']
 for feature in selected_features:
     movies_data[feature] = movies_data[feature].fillna('')
@@ -40,10 +41,10 @@ vectorizer = TfidfVectorizer()
 feature_vectors = vectorizer.fit_transform(combined_features)
 similarity = cosine_similarity(feature_vectors)
 
-# User input
+# ✅ User input
 movie_name = st.text_input("Enter a movie name you like:")
 
-# Recommendation logic
+# ✅ Recommendation logic
 if st.button("Recommend"):
     list_of_all_titles = movies_data['title'].tolist()
     find_close_match = difflib.get_close_matches(movie_name, list_of_all_titles)
@@ -59,3 +60,4 @@ if st.button("Recommend"):
             st.write(f"{i+1}. {movies_data.iloc[movie[0]].title}")
     else:
         st.error("No matching movie found. Try another one.")
+
