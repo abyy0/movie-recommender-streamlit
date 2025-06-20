@@ -6,7 +6,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import base64
 
 # 🌌 FUNCTION TO SET BACKGROUND
-def set_bg(image_file_path):  # 👈 YOUR IMAGE PATH GOES HERE
+def set_bg(galaxy.jpg):  # ✅ Now accepts a path
     with open(image_file_path, "rb") as img:
         encoded = base64.b64encode(img.read()).decode()
     st.markdown(f"""
@@ -19,14 +19,14 @@ def set_bg(image_file_path):  # 👈 YOUR IMAGE PATH GOES HERE
         </style>
         """, unsafe_allow_html=True)
 
-# 🔽 🔽 🔽 PUT YOUR IMAGE FILE NAME HERE 🔽 🔽 🔽
-set_bg("/content/6e839d33-7a50-43b7-abbb-e6c457c25cab.jpeg")  # 👈 change to your image name, like "stars.png" if different
+# ✅ SET THE BACKGROUND IMAGE
+set_bg("galaxy.jpg")  # 🖼️ Make sure galaxy.jpg is uploaded to GitHub in same folder
 
 st.title("🎬 Movie Recommendation System")
 
 @st.cache_data
 def load_data():
- return pd.read_csv("/content/movies.csv")  # 👈 your movies.csv file
+    return pd.read_csv("movies.csv")  # ✅ Only filename, no /content
 
 movies_data = load_data()
 
